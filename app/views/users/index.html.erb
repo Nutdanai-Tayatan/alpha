@@ -14,7 +14,22 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">
+
+            <% if user.avatar.attached? %>
+              <%= image_tag (user.avatar), width: "300px" %>
+            <% else %>
               <%= link_to gravatar_for(user, size: 150), user %>
+            <% end %>
+
+
+
+             
+
+
+
+
+
+
             </h5>
             <p class="card-text"><%= pluralize(user.articles.count, "article") %></p>
             <%= link_to "View profile", user, class: "btn btn-outline-success" %>

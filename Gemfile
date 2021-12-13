@@ -25,6 +25,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate', '~> 3.3'
 gem 'will_paginate-bootstrap5'
+gem 'rexml', require: false
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -64,3 +65,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 gem 'jquery-rails', '~> 4.4'
+
+gem 'devise'

@@ -1,6 +1,32 @@
 <h1 class="text-center mt-4"><%= @user.username %>'s profile</h1>
 
-<%= gravatar_for @user, size: 200 %>
+
+
+
+<div class="text-center mt-4">
+  <% if @user.avatar.attached? %>
+    <%= image_tag @user.avatar, width: "200px" %>
+  <% else %>
+    <%= gravatar_for @user, size: 200 %>
+  <% end %>
+</div>
+
+
+<% if @user.bio != nil %>
+  <div class="row justify-content-md-center">
+    <div class="card text-center col-4 mt-4">
+      <div class="card-header">
+        <%= @user.username%>'s bio
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">About me</h5>
+        <p class="card-text"><%= @user.bio %></p>
+        
+      </div>
+    </div>
+  </div>
+<% end %>
+
 
 <% if logged_in? && @user == current_user %>
   <div class="text-center mt-4">

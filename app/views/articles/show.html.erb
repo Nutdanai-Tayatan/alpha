@@ -5,18 +5,64 @@
     <div class="col-8 mt-4">
       <div class="card text-center shadow mb-5 bg-white rounded">
         <div class="card-header font-italic">
-          by <%= @article.user.username if @article.user %>
-          <%= link_to gravatar_for(@article.user), user_path(@article.user) %>
+
+          by <%= link_to @article.user.username, user_path(@article.user) if @article.user %>
+
+         
+
+          <div class="text-center mt-4">
+            <% if @article.user.avatar.attached? %>
+              <%= image_tag @article.user.avatar, width: "100px" %>
+            <% else %>
+              <%= link_to gravatar_for(@article.user), user_path(@article.user) %>
+            <% end %>
+          </div>
+
+
+
           <% if @article.categories.any? %>
             <div class="mt-2"><%= render @article.categories %></div> 
           <% end %>
         </div>
         <div class="card-body">
-          <div class="card-text text-left"><%= simple_format(@article.description) %></div>
-          <% if logged_in? && (@article.user == current_user || current_user.admin?) %>
-          <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-info" %>
-          <%= link_to "Delete", article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+          <div class="card-text text-left">
+
+  
+
+  
+            <% if @article.images.attached? %>
+              <% @article.images.each do |image| %>
+                    
+                <%= image_tag image, class: "img-thumbnail rounded mx-auto d-block" %>
+            
+              <% end %>
+            <% end %>
+          <br>
+
+
+          <%= @article.likes.count %> Likes
+          <% like = current_user.likes.find_by(article: @article) %>
+          <% if like.nil? %>
+
+            <%= button_to "Like", likes_path, params: {like: {article_id: @article.id}}, method: :article, class: "btn btn-primary"%>
+            
+          <% else %>
+          <%= button_to "Unlike", like_path(like), method: :delete, class: "btn btn-danger" %>
+    
           <% end %>
+
+          <br>
+          <div class="card">
+            <div class="card-body">
+              <%= simple_format(@article.description) %></div>
+              <% if logged_in? && (@article.user == current_user || current_user.admin?) %>
+                <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-info" %>
+                <%= link_to "Delete", article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+            <% end %>
+            </div>
+          </div>
+
+      
         </div>
         <div class="card-footer text-muted">
           <small>Created <%= time_ago_in_words(@article.created_at) %> ago, 
@@ -26,3 +72,18 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="row justify-content-md-center">
+  <div class="card col-8 mt-4">
+    <div class="card-header">
+      Comments
+    </div>
+    <div class="card-body">
+      <%= render @article.comments.where(parent_id: nil).includes(:user).order(id: :desc) %>
+      <%= render partial: 'comments/form', locals: {article: @article, parent: nil} %>
+    </div>
+  </div>
+</div>
+<br><br>

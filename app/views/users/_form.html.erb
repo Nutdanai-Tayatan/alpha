@@ -3,6 +3,9 @@
     <div class="col-10">
       <%= render 'shared/errors', obj: @user %>
       <%= form_with(model: @user, class: "shadow p-3 mb-3 bg-info rounded", local: true) do |f| %>
+        
+        
+
         <div class="form-group row">
           <%= f.label :username, class: "col-2 col-form-label text-light" %>
           <div class="col-10">
@@ -23,6 +26,27 @@
             <%= f.password_field :password, class: "form-control shadow rounded", placeholder: "Choose a password" %>
           </div>
         </div>
+
+        <div class="form-group row">
+        <%= f.label :bio, class: "col-2 col-form-label text-light" %>
+        <div class="col-10">
+          <%= f.text_area :bio,rows: 8, class: "form-control shadow rounded", placeholder: "Descirption about you" %>
+        </div>
+      </div>
+
+        <div class="form-group row">
+        <%= f.label :avatar, class: "col-2 col-form-label text-light" %>
+        <div class="col-10"> 
+          <%= f.file_field :avatar, class: "form-control shadow rounded" %>
+        </div>
+      </div>
+
+
+        
+
+      
+
+       
 
         <div class="form-group row justify-content-center">
           <%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: "btn btn-outline-light btn-lg") %>

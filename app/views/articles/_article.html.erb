@@ -7,6 +7,13 @@
             <% if article.user %>
               by <%= link_to article.user.username, user_path(article.user) %>
             <% end %>
+            <div class="text-center mt-4">
+              <% if article.user.avatar.attached? %>
+                <%= image_tag article.user.avatar, width: "100px" %>
+              <% else %>
+                <%= link_to gravatar_for(article.user), user_path(article.user) %>
+              <% end %>
+            </div>
             <% if article.categories.any? %>
               <div class="mt-2"><%= render article.categories %></div> 
             <% end %>
@@ -16,6 +23,7 @@
             <p class="card-text"><%= truncate(article.description, length: 100) %></p>
             <%= link_to "View", article_path(article), class: "btn btn-outline-success" %>
             <% if logged_in? && (article.user == current_user || current_user.admin?) %>
+            
               <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-info" %>
               <%= link_to "Delete", article_path(article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
             <% end %>

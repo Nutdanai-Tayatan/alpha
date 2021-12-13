@@ -1,0 +1,2 @@
+class DropLike < ApplicationRecord
+end
